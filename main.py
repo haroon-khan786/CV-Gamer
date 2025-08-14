@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import pyautogui
 import numpy as np
+from find_the_screen_coordinate import get_screen_coordinate
 
 # Initialize MediaPipe Hands module
 mp_hands = mp.solutions.hands
@@ -9,8 +10,14 @@ hands = mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5
 mp_drawing = mp.solutions.drawing_utils
 
 
-# Screen size
-screen_width, screen_height = pyautogui.size()
+# Game window region (x, y, width, height)
+# Replace these with your game window's coordinates
+game_x , game_y , game_width , game_height = get_screen_coordinate()
+# game_x = 100
+# game_y = 150
+# game_width = 1280
+# game_height = 720
+# screen_width, screen_height = pyautogui.size()
 
 # Initialize webcam capture
 cap = cv2.VideoCapture(0)
@@ -50,8 +57,8 @@ while True:
             finger_y = int(index_finger_tip.y * frame.shape[0])  # Normalize y to pixel
 
             # Convert to screen coordinates
-            screen_x = np.interp(index_finger_tip.x, [0, 1], [0, screen_width])
-            screen_y = np.interp(index_finger_tip.y, [0, 1], [0, screen_height])
+            screen_x = np.interp(index_finger_tip.x, [0, 1], [game_x, game_x + game_width])
+            screen_y = np.interp(index_finger_tip.y, [0, 1], [game_y, game_y + game_height])
 
              # Move mouse
             pyautogui.moveTo(screen_x, screen_y)
