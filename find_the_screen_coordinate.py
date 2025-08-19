@@ -1,6 +1,7 @@
 import pyautogui
 import time
 
+
 def get_screen_coordinate():
 
     print("Move your mouse to the TOP-LEFT corner of the game window and stay up to 7 seconds...")

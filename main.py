@@ -1,8 +1,13 @@
+
 import cv2
 import mediapipe as mp
 import pyautogui
 import numpy as np
 from find_the_screen_coordinate import get_screen_coordinate
+import pydirectinput
+import time
+
+
 
 # Initialize MediaPipe Hands module
 mp_hands = mp.solutions.hands
@@ -26,6 +31,7 @@ cap = cv2.VideoCapture(0)
 if not cap.isOpened():
     print("Error: Unable to access the camera.")
     exit()
+
 
 while True:
     ret, frame = cap.read()
@@ -60,9 +66,9 @@ while True:
             screen_x = np.interp(index_finger_tip.x, [0, 1], [game_x, game_x + game_width])
             screen_y = np.interp(index_finger_tip.y, [0, 1], [game_y, game_y + game_height])
 
-             # Move mouse
+            # Move mouse
             pyautogui.moveTo(screen_x, screen_y)
-
+            pyautogui.mouseDown()
 
             # Draw a circle on the frame at the finger's position (red circle)
             cv2.circle(drawing_frame, (finger_x, finger_y), 10, (0, 0, 255), -1)  # Red circle
